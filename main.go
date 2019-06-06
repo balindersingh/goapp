@@ -14,13 +14,16 @@ func main() {
   http.HandleFunc("/", serveTemplate)
 
   log.Println("Listening...")
-  http.ListenAndServe(":3000", nil)
+  port:=os.Getenv("PORT")
+  if port==""{
+    port="5000"
+  }
+  http.ListenAndServe(":"+port, nil)
 }
 
 func serveTemplate(w http.ResponseWriter, r *http.Request) {
   lp := filepath.Join("templates", "layout.html")
-  fp := filepath.Join("templates", filepath.Clean(r.URL.Path))
-  
+  fp := filepath.Join("templates", filepath.Clean(r.URL.Path))  
   if r.URL.Path=="/"{
 	log.Println("path is root")
 	fp = "templates/home.html"
